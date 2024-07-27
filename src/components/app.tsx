@@ -1,9 +1,7 @@
-import { Button } from "./ui/button";
-
 function App() {
   return (
     <div>
-      <Button>hello clinica</Button>
+      <h1>test</h1>
     </div>
   );
 }
