@@ -20,14 +20,14 @@ const DistrictService = {
     );
     return data;
   },
-  async updateDistrict(districtId: string, district) {
+  async updateDistrict(districtId: string, district: any) {
     const { data } = await privateInstance.put(
       hospitalEndpoints.updateDistrict(districtId),
       district
     );
     return data;
   },
-  async createDistrict(district) {
+  async createDistrict(district: any) {
     const { data } = await privateInstance.post(
       hospitalEndpoints.createDistrict,
       district
