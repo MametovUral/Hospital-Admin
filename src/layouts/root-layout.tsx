@@ -23,15 +23,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { NavLink, Outlet } from "react-router-dom";
 
 function RootLayout() {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const menuItems = [
-    { icon: LayoutGrid, text: "Dashboard" },
-    { icon: Stethoscope, text: "Doctor" },
-    { icon: Users, text: "Patient" },
-    { icon: Settings, text: "Worker" },
+    { icon: LayoutGrid, text: "Dashboard", path: "/" },
+    { icon: Settings, text: "Worker", path: "worker" },
+    { icon: Stethoscope, text: "Doctor", path: "doctor" },
+    { icon: Users, text: "Patient", path: "patient" },
   ];
 
   return (
@@ -53,18 +54,36 @@ function RootLayout() {
         </div>
 
         <nav className="flex-1 transition duration-200">
-          {menuItems.map((item, index) => (
-            <a
-              key={index}
-              href="#"
-              className="group gap-5 flex items-center text-[#A9A9A9]  py-2.5 px-4 rounded transition duration-200 hover:bg-[#3371EB] hover:text-white mb-2"
-            >
-              <item.icon className="w-6 h-6 text-[#A9A9A9] group-hover:text-white " />
-              {!isCollapsed && (
-                <span className="transition duration-2000 ">{item.text}</span>
-              )}
-            </a>
-          ))}
+          <ul className="flex flex-col gap-1">
+            {menuItems.map((item, index) => (
+              <li className="group">
+                <NavLink
+                  to={item.path}
+                  key={index}
+                  className={({ isActive }) =>
+                    `${
+                      isActive ? "bg-[#3371eb] text-white " : ""
+                    }   className=" gap-5 flex items-center text-[#A9A9A9]  py-2.5 px-4 rounded transition duration-200 hover:bg-[#3371EB] "`
+                  }
+                >
+                  {({ isActive }) => (
+                    <>
+                      <item.icon
+                        className={`w-6 h-6 ${
+                          isActive ? "text-white" : "text-[#A9A9A9]"
+                        } group-hover:text-white`}
+                      />
+                      {!isCollapsed && (
+                        <span className="group-hover:text-white transition duration-2000">
+                          {item.text}
+                        </span>
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
         </nav>
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
@@ -109,17 +128,22 @@ function RootLayout() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
+                Settings
+              </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              <DropdownMenuItem className="text-white bg-red-500 hover:bg-red-500/80">
+                Logout
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
 
         {/* Main content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#F8F8F8;] p-4">
-          <h2 className="text-2xl font-semibold mb-4">---------</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+          <div className="w-full  gap-4">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
