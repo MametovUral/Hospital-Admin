@@ -1,63 +1,41 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Search } from "lucide-react";
+import WorketTable from "@/components/shared/tables/worket-table";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { UserRoles } from "@/constants";
+
+import { Search } from "lucide-react";
+import { useState } from "react";
+
+const hh = {
+  login: "worker9",
+  password: "test123",
+  fname: "Sardor",
+  lname: "Abdullayev",
+  mname: "Soliy o'g'li",
+};
 
 function WorkerPage() {
+  const [isEditModal, setIsEditModal] = useState(false);
+
   return (
     <div className="w-full">
       <div className="flex border-b mb-4 pb-4  justify-between">
@@ -70,35 +48,104 @@ function WorkerPage() {
           />
         </div>
         <div>
-          <Button className="capitalize" variant={"blue"}>
+          <Button
+            onClick={() => setIsEditModal(true)}
+            className="capitalize"
+            variant={"blue"}
+          >
             + yangi xodim
           </Button>
         </div>
       </div>
       <div>
-        <Table className="">
-          <TableHeader className="">
-            <TableRow>
-              <TableHead className="">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
-                <TableCell className="">
-                  {invoice.totalAmount}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <WorketTable />
       </div>
+      <Dialog open={isEditModal} onOpenChange={() => setIsEditModal(false)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Xodim qo'shish</DialogTitle>
+            <DialogDescription>
+              Kiritayotgan ma'lumotlaringgizga e'tiborliroq bo'ling.
+            </DialogDescription>
+          </DialogHeader>
+          <form className="grid items-start gap-4">
+            <div className="grid gap-3 grid-cols-2">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Ismi</Label>
+                <Input required type="text" id="name" placeholder="Asad" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="lastname">Familyasi</Label>
+                <Input
+                  required
+                  type="text"
+                  id="lastname"
+                  placeholder="Asadov"
+                />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="grid gap-2">
+                <Label htmlFor="fathername">Otasining ismi</Label>
+                <Input
+                  required
+                  type="text"
+                  id="fathername"
+                  placeholder="Asad o'g'li"
+                />
+              </div>
+              <div>
+                <Label>Role</Label>
+                <Select required>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Role ni tanlang" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Roles</SelectLabel>
+                      {UserRoles.map((item) => (
+                        <SelectItem key={item.role} value={item.role}>
+                          {item.label}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="grid gap-2">
+                <Label htmlFor="login">Login</Label>
+                <Input
+                  required
+                  type="text"
+                  id="login"
+                  placeholder="asad@gmail.com"
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="Parol">Parol</Label>
+                <Input
+                  required
+                  type="password"
+                  id="Parol"
+                  placeholder="********"
+                />
+              </div>
+            </div>
+            <div className="grid w-full items-center gap-2">
+              <Label htmlFor="picture">Picture</Label>
+              <Input required id="picture" type="file" />
+            </div>
+
+            <DialogFooter>
+              <Button className="w-full" variant={"blue"} type="submit">
+                Qo'shish
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

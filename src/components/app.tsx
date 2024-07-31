@@ -2,6 +2,7 @@ import RootLayout from "@/layouts/root-layout";
 import Dashboard from "@/pages/dashboard";
 import DoctorPage from "@/pages/doctor-page";
 import ErrorPage from "@/pages/error-page";
+import Login from "@/pages/login";
 import PatientPage from "@/pages/patient-page";
 import WorkerPage from "@/pages/worker-page";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
       { path: "doctor", element: <DoctorPage /> },
       { path: "patient", element: <PatientPage /> },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
 ]);
 

@@ -7,7 +7,7 @@ import axios, {
 } from "axios";
 import Qs from "qs";
 
-const baseURL = "https://";
+const baseURL = "http://localhost:3000/";
 
 const createInstance = (config: AxiosRequestConfig) => {
   const instance = axios.create({
@@ -46,9 +46,9 @@ const createInstance = (config: AxiosRequestConfig) => {
 const publicInstance = createInstance({});
 
 const privateInstance = createInstance({
-  headers: {
-    Authorization: `Bearer ${JSON.parse(localStorage.getItem("accessToken")!)}`,
-  },
+  // headers: {
+  //   Authorization: `Bearer ${JSON.parse(localStorage.getItem("accessToken")!)}`,
+  // },
 });
 const privateInstanceForMediaData = createInstance({
   headers: {
