@@ -56,7 +56,7 @@ function RootLayout() {
         <nav className="flex-1 transition duration-200">
           <ul className="flex flex-col gap-1">
             {menuItems.map((item, index) => (
-              <li className="group">
+              <li key={item.path} className="group">
                 <NavLink
                   to={item.path}
                   key={index}

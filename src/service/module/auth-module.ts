@@ -1,12 +1,15 @@
 import { hospitalEndpoints } from "../endpoints";
 import { privateInstance } from "../client/client";
+import { Ilogin } from "@/types";
 
 const AuthService = {
-  async login(credentials: any) {
-    const { data } = await privateInstance.post(
+  async login(credentials: Ilogin) {
+    const data  = await privateInstance.post(
       hospitalEndpoints.login,
       credentials
     );
+
+    
     return data;
   },
   async logout() {
